@@ -6,7 +6,16 @@ exports.addFriend = async (req, res, next) => {
    const { userId, friendId} = req.body;
 
     const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error('User not found.');
+    }
+
     const friend = await Friend.findOne({ user_id: userId });
+
+    if(!friend) {
+        throw new Error('User not found in friends collection.');
+    }
 
     if(friend.friend_ids.includes(friendId)){
         throw new Error('The friend already is a friend.')
