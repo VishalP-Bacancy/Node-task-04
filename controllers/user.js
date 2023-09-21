@@ -10,6 +10,12 @@ exports.addUser = async (req, res, next) => {
         phone_no: phone_no
     });
 
+    const isExistingUser = await User.findOne({ phone_no: phone_no });
+
+    if( isExistingUser ) {
+        throw new Error('User already exists.');
+    }
+
     await user.save();
 
     const friend = new Friend()

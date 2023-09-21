@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errorHandler } = require('./util/errorHandler');
@@ -18,12 +19,12 @@ app.use(errorHandler);
 
 
 mongoose
-  .connect(`mongodb+srv://VishalP-Bacancy:Vishal123-bacancy@cluster0.ogjvwvy.mongodb.net/node-task-04`)
+  .connect(process.env.MONGO_URI)
   .then(() => {
 
     console.log(`Database connected!`)
 
-    app.listen(5500, () => {
-       console.log("Server is running on port 5500");
+    app.listen(process.env.PORT || 5500, () => {
+       console.log(`Server is running on port ${process.env.PORT || 5500}`);
     })
   }).catch(err => console.log(err))
